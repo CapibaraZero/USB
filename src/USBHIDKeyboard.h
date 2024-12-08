@@ -46,6 +46,18 @@ typedef union {
     uint8_t leds;
 } arduino_usb_hid_keyboard_event_data_t;
 
+// Supported keyboard layouts
+extern const uint8_t KeyboardLayout_de_DE[];
+extern const uint8_t KeyboardLayout_en_US[];
+extern const uint8_t KeyboardLayout_es_ES[];
+extern const uint8_t KeyboardLayout_fr_FR[];
+extern const uint8_t KeyboardLayout_it_IT[];
+extern const uint8_t KeyboardLayout_pt_PT[];
+extern const uint8_t KeyboardLayout_sv_SE[];
+extern const uint8_t KeyboardLayout_da_DK[];
+extern const uint8_t KeyboardLayout_hu_HU[];
+extern const uint8_t KeyboardLayout_pt_BR[];
+
 #define KEY_LEFT_CTRL   0x80
 #define KEY_LEFT_SHIFT  0x81
 #define KEY_LEFT_ALT    0x82
@@ -113,10 +125,11 @@ class USBHIDKeyboard: public USBHIDDevice, public Print
 {
 private:
     USBHID hid;
+    const uint8_t *_asciimap;
     KeyReport _keyReport;
 public:
     USBHIDKeyboard(void);
-    void begin(void);
+    void begin(const uint8_t *layout = KeyboardLayout_en_US);
     void end(void);
     size_t write(uint8_t k);
     size_t write(const uint8_t *buffer, size_t size);
